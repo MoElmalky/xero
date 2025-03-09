@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class UserServices {
 
-    private List<UserModel> users;
+    private final List<UserModel> users;
 
     public UserServices(){
         users = new ArrayList<>();
@@ -23,12 +23,27 @@ public class UserServices {
         users.addAll(Arrays.asList(user1,user2,user3,user4));
     }
 
-    public UserModel getUser(Integer id){
+    public UserModel getUser(int id){
         for(UserModel user : users){
             if(id == user.getId()){
                 return user;
             }
         }
         return null;
+    }
+
+    public ArrayList<Integer> getCart(int userId){
+        UserModel user = getUser(userId);
+        return user.getCart();
+    }
+
+    public Boolean addToCart(int userId,int productId){
+        UserModel user = getUser(userId);
+        if(user != null){
+            user.addToCard(productId);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

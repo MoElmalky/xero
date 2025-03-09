@@ -2,22 +2,19 @@ package com.meteora.xero.services;
 
 
 import com.meteora.xero.api.model.ProductModel;
-import jdk.jfr.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 @Service
-
 public class ProductServices {
 
-    private List<ProductModel> Products;
+    private final List<ProductModel> products;
 
     public ProductServices(){
-        Products = new ArrayList<>();
+        products = new ArrayList<>();
 
         ProductModel Product1 = new ProductModel(1,"Tesla",2,20000,"Tesla, Inc. is a pioneering American company specializing in electric vehicles (EVs)",12, "AI");
         ProductModel Product2 = new ProductModel(2,"Phone",4,3000,"The iPhone, developed by Apple Inc",13,"Gaming");
@@ -30,16 +27,27 @@ public class ProductServices {
         ProductModel Product9 = new ProductModel(9,"Apple Watch",200,500,"A rugged smartwatch designed for adventurers and athletes, featuring a Titanium case, 100m water resistance, dual-frequency GPS, and up to 72 hours of battery life in low-power mode",16, "AI");
         ProductModel Product10 = new ProductModel(10,"Ahmed",2,400,"A rugged smartwatch designed for adventurers and athletes, featuring a Titanium case, 100m water resistance, dual-frequency GPS, and up to 72 hours of battery life in low-power mode",12, "AI");
 
-        Products.addAll(Arrays.asList(Product1,Product2,Product3,Product4,Product5,Product6,Product7,Product8,Product9,Product10));
+        products.addAll(Arrays.asList(Product1,Product2,Product3,Product4,Product5,Product6,Product7,Product8,Product9,Product10));
     }
 
 
-    public ProductModel getproduct(Integer id) {
-        for(ProductModel product : Products){
+    public ProductModel getProduct(Integer id) {
+        for(ProductModel product : products){
             if(id == product.getId()){
                 return product;
             }
         }
         return null;
+    }
+
+    public ArrayList<ProductModel> getList(String listName){
+        ArrayList<ProductModel> list = new ArrayList<>();
+
+        for(ProductModel product : products){
+            if(product.getCategory().equals(listName)){
+                list.add(product);
+            }
+        }
+        return list;
     }
 }
