@@ -8,15 +8,16 @@ public class ProductModel {
     private int price;
     private String description;
     private float ValueProposition;
+    private String Category;
 
-
-    public ProductModel(int id, String ProductName, int Lifespan, int price, String description, float ValueProposition) {
+    public ProductModel(int id, String ProductName, int Lifespan, int price, String description, float ValueProposition,String Category) {
         this.id = id;
         this.ProductName = ProductName;
         this.Lifespan = Lifespan;
         this.price = price;
         this.description = description;
         this.ValueProposition = ValueProposition;
+        this.Category = Category;
     }
 
     public void setId(int id) {
@@ -43,6 +44,10 @@ public class ProductModel {
         this.price = price;
     }
 
+    public void setCategory(String Category) {
+        this.Category = Category;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -65,6 +70,10 @@ public class ProductModel {
 
     public float getValueProposition() {
         return this.ValueProposition;
+    }
+
+    public String getCategory() {
+        return this.Category;
     }
 }
 

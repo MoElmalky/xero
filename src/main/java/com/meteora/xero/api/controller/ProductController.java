@@ -1,6 +1,5 @@
 package com.meteora.xero.api.controller;
 
-
 import com.meteora.xero.api.model.ProductModel;
 import com.meteora.xero.services.ProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,4 @@ public class ProductController {
     public ProductModel getproduct(@RequestParam Integer id){
         return ProductServices.getproduct(id);
     }
-
-
 }
