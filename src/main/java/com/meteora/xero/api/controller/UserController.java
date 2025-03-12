@@ -5,6 +5,7 @@ import com.meteora.xero.api.model.UserModel;
 import com.meteora.xero.services.ProductServices;
 import com.meteora.xero.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,10 +28,16 @@ public class UserController {
         return userServices.getUser(id);
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<String> addUser(@RequestBody UserServices.UserDTO user){
+        userServices.addUser(user);
+        return ResponseEntity.ok("User add successfully");
+    }
+
     @GetMapping("/cart")
     public ArrayList<ProductModel> getCart(@RequestParam Integer id){
         ArrayList<ProductModel> cart = new ArrayList<>();
-        for(int product : userServices.getCart(id)){
+        for(Integer product : userServices.getUserCart(id)){
             cart.add(productServices.getProduct(product));
         }
         return cart;

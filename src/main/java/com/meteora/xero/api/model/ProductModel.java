@@ -2,78 +2,48 @@ package com.meteora.xero.api.model;
 
 public class ProductModel {
 
-    private int id;
-    private String ProductName;
-    private int Lifespan;
-    private int price;
+    private Integer id;
+    private String productName;
+    private Integer price;
     private String description;
-    private float ValueProposition;
-    private String Category;
+    private String category;
 
-    public ProductModel(int id, String ProductName, int Lifespan, int price, String description, float ValueProposition,String Category) {
+    public ProductModel(Integer id, String productName, Integer price, String description,String category) {
         this.id = id;
-        this.ProductName = ProductName;
-        this.Lifespan = Lifespan;
+        this.productName = productName;
         this.price = price;
         this.description = description;
-        this.ValueProposition = ValueProposition;
-        this.Category = Category;
+        this.category = category;
     }
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
-    public void setProductName(String ProductName) {
-        this.ProductName = ProductName;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
-
-    public void setLifespan(int Lifespan) {
-        this.Lifespan = Lifespan;
-    }
-
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
-
-    public void setValueProposition(float ValueProposition) {
-        this.ValueProposition = ValueProposition;
-    }
-
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
-
-    public void setCategory(String Category) {
-        this.Category = Category;
+    public void setCategory(String category) {
+        this.category = category;
     }
-
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
-
     public String getProductName() {
-        return this.ProductName;
+        return this.productName;
     }
-
-    public int getLifespan() {
-        return this.Lifespan;
-    }
-
-    public int getPrice() {
+    public Integer getPrice() {
         return this.price;
     }
-
     public String getDescription() {
         return this.description;
     }
-
-    public float getValueProposition() {
-        return this.ValueProposition;
-    }
-
     public String getCategory() {
-        return this.Category;
+        return this.category;
     }
 }
 
