@@ -34,6 +34,7 @@ public class UserServices {
     public User addUser(User user){
         return this.userRepository.save(user);
     }
+    public Boolean checkEmailExistence(User user){return this.userRepository.findByEmail(user.getEmail()).isPresent();}
 
     public Address addAddress(Address address){
         return this.addressRepository.save(address);
@@ -46,6 +47,8 @@ public class UserServices {
         return this.cartItemRepository.save(item);
     }
     public List<Order> getOrderHistory(Long id){return this.orderRepository.findOrderByUserId(id);}
+    public Optional<CartItem> getCartItem(Long id){return this.cartItemRepository.findById(id);}
+    public void removeCartItem(CartItem item){this.cartItemRepository.delete(item);}
 
     @Transactional
     public Order placeOrder(Long userId,Long addressId){

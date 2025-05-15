@@ -4,10 +4,16 @@ import com.meteora.xero.api.model.Address;
 import com.meteora.xero.api.model.CartItem;
 import com.meteora.xero.api.model.User;
 import com.meteora.xero.services.UserServices;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -27,7 +33,10 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> addUser(@RequestBody User user){
+    public ResponseEntity<?> addUser(@RequestBody @Valid User user){
+        if(userServices.checkEmailExistence(user)){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already registered");
+        }
         try {
             User savedUser = userServices.addUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
@@ -37,7 +46,7 @@ public class UserController {
         }
     }
     @PostMapping("/addAddress")
-    public ResponseEntity<?> addAddress(@RequestBody Address address){
+    public ResponseEntity<?> addAddress(@RequestBody @Valid Address address){
         try {
             Address savedAddress = userServices.addAddress(address);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedAddress);
@@ -96,5 +105,33 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error adding item: " + e.getMessage());
         }
+    }
+    @DeleteMapping("/removeFromCart")
+    public ResponseEntity<?> removeCartItem(@RequestParam Long id){
+        CartItem item;
+        if(userServices.getCartItem(id).isPresent()){
+            item = userServices.getCartItem(id).get();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Item does not exist");
+        }
+        try {
+            userServices.removeCartItem(item);
+            return ResponseEntity.ok("Item removed successfully");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error removing item: " + e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String,String> handelValidationExceptions(MethodArgumentNotValidException ex){
+        Map<String,String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error)->{
+            String k = ((FieldError) error).getField();
+            String v = error.getDefaultMessage();
+            errors.put(k,v);
+        });
+        return errors;
     }
 }
